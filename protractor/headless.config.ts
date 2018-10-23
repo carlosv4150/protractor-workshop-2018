@@ -6,6 +6,12 @@ export const config: Config = {
   specs: ['../test/**/*.spec.js'],
   getPageTimeout: 1000,
   SELENIUM_PROMISE_MANAGER: false,
+  capabilities: {
+    browserName: 'chrome',
+    chromeOptions: {
+      args: ['--headless', '--disable-gpu']
+    }
+  },
   onPrepare: () => {
     browser.ignoreSynchronization = true;
     reporter();
