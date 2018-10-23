@@ -3,7 +3,7 @@ import { $, ElementFinder } from 'protractor';
 export class AddressStepPage {
   private checkoutAddressButton: ElementFinder;
   constructor () {
-    this.checkoutAddressButton = $('#center_column > form > p > button > span');
+    this.checkoutAddressButton = $('.cart_navigation button[name="processAddress"]');
   }
 
   public async checkoutAddress(): Promise<void> {

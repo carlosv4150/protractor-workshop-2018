@@ -4,7 +4,7 @@ export class SummaryStepPage {
   private orderConfirmedText: ElementFinder;
 
   constructor () {
-    this.orderConfirmedText = $('#center_column > div > p > strong');
+    this.orderConfirmedText = $('.cheque-indent strong.dark');
   }
 
   public async getOrderConfirmedText(): Promise<void> {
