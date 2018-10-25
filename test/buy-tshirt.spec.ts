@@ -17,8 +17,7 @@ describe('Given a shopping page', () => {
       const productListPage: ProductListPage = new ProductListPage();
 
       await menuContentPage.goToTShirtMenu();
-      await productListPage.goToListView();
-      await productListPage.addToCart();
+      await productListPage.selectProduct('T-shirts');
       await productAddedModalPage.goToCheckout();
       await orderSummaryPage.proceedCheckout();
     });
