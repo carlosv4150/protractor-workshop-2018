@@ -3,31 +3,56 @@ import { MenuContentPage, AddressStepPage, BankPaymentPage, PaymentStepPage,
   ProductListPage, ProductAddedModalPage, OrderSummaryPage, ShippingStepPage,
   SignInStepPage, SummaryStepPage} from '../src/page';
 
-describe('Buy a t-shirt', () => {
-  const menuContentPage: MenuContentPage = new MenuContentPage();
-  const addressStepPage: AddressStepPage = new AddressStepPage();
-  const bankPaymentPage: BankPaymentPage = new BankPaymentPage();
-  const orderSummaryPage: OrderSummaryPage = new OrderSummaryPage();
-  const paymentStepPage: PaymentStepPage = new PaymentStepPage();
-  const productAddedModalPage: ProductAddedModalPage = new ProductAddedModalPage();
-  const productListPage: ProductListPage = new ProductListPage();
-  const shippingStepPage: ShippingStepPage = new ShippingStepPage();
-  const signInStepPage: SignInStepPage = new SignInStepPage();
-  const summaryStepPage: SummaryStepPage = new SummaryStepPage();
+describe('Given a shopping page', () => {
 
-  it('then should be bought a t-shirt', async () => {
+  beforeAll(async () => {
     await browser.get('http://automationpractice.com/');
-    await menuContentPage.goToTShirtMenu();
-    await productListPage.goToListView();
-    await productListPage.addToCart();
-    await productAddedModalPage.goToCheckout();
-    await orderSummaryPage.proceedCheckout();
-    await signInStepPage.fillLoginForm();
-    await addressStepPage.checkoutAddress();
-    await shippingStepPage.acceptTerms();
-    await shippingStepPage.proceedCheckoutShipping();
-    await bankPaymentPage.goToBankPayment();
-    await paymentStepPage.confirmOrder();
-    await summaryStepPage.getOrderConfirmedText();
+  });
+  describe('When I want to buy a T-shirt', () => {
+
+    beforeAll(async () => {
+      const menuContentPage: MenuContentPage = new MenuContentPage();
+      const orderSummaryPage: OrderSummaryPage = new OrderSummaryPage();
+      const productAddedModalPage: ProductAddedModalPage = new ProductAddedModalPage();
+      const productListPage: ProductListPage = new ProductListPage();
+
+      await menuContentPage.goToTShirtMenu();
+      await productListPage.goToListView();
+      await productListPage.addToCart();
+      await productAddedModalPage.goToCheckout();
+      await orderSummaryPage.proceedCheckout();
+    });
+    describe('And I log in into the application ', () => {
+
+      beforeAll(async () => {
+        const signInStepPage: SignInStepPage = new SignInStepPage();
+        await signInStepPage.fillLoginForm();
+      });
+
+      describe('And I select the default address', () => {
+        beforeAll(async () => {
+          const addressStepPage: AddressStepPage = new AddressStepPage();
+          await addressStepPage.checkoutAddress();
+        });
+
+        describe('And I pay to the bank', () => {
+          beforeAll(async () => {
+            const bankPaymentPage: BankPaymentPage = new BankPaymentPage();
+            const paymentStepPage: PaymentStepPage = new PaymentStepPage();
+            const shippingStepPage: ShippingStepPage = new ShippingStepPage();
+
+            await shippingStepPage.acceptTerms();
+            await shippingStepPage.proceedCheckoutShipping();
+            await bankPaymentPage.goToBankPayment();
+            await paymentStepPage.confirmOrder();
+          });
+
+          it('Then should be bought a t-shirt', async () => {
+            const summaryStepPage: SummaryStepPage = new SummaryStepPage();
+            await summaryStepPage.getOrderConfirmedText();
+          });
+        });
+      });
+    });
   });
 });
