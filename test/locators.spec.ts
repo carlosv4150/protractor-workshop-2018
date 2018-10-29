@@ -9,31 +9,37 @@ describe('Given a form', () => {
     await browser.get('http://toolsqa.com/automation-practice-form/');
   });
 
-  it('When I fill all the information', async () => {
+  describe('When I fill all the information', async () => {
 
-    await personalInformationPage.fillForm({
-      firstName: 'Alejandro',
-      lastName: 'Perdomo',
-      sex: 'Male',
-      experience: 7,
-      profession: ['Automation Tester'],
-      tools: ['Selenium Webdriver'],
-      continent: 'South America',
-      commands: [
-        'Browser Commands',
-        'Navigation Commands',
-        'Switch Commands',
-        'Wait Commands',
-        'WebElement Commands']
+    beforeAll(async () => {
+      await personalInformationPage.fillForm({
+        firstName: 'Alejandro',
+        lastName: 'Perdomo',
+        sex: 'Male',
+        experience: 7,
+        profession: ['Automation Tester'],
+        tools: ['Selenium Webdriver'],
+        continent: 'South America',
+        file: './resources/sea.jpg',
+        commands: [
+          'Browser Commands',
+          'Navigation Commands',
+          'Switch Commands',
+          'Wait Commands',
+          'WebElement Commands']
+      });
     });
 
-  });
+    it('Then file should be loaded', async () => {
+      expect(await personalInformationPage.getFilename()).toBe('sea.jpg');
+    });
 
-  it('Then the information is sent', async () => {
-    await personalInformationPage.sendForm();
-  });
+    it('And the information is sent', async () => {
+      await personalInformationPage.sendForm();
+    });
 
-  it('And the title is verified', async () => {
-    expect(personalInformationPage.getPageTitle()).toBe('Practice Automation Form');
+    it('And the title is verified', async () => {
+      expect(personalInformationPage.getPageTitle()).toBe('Practice Automation Form');
+    });
   });
 });

@@ -1,4 +1,7 @@
-import { element, by, ElementFinder } from 'protractor';
+import { browser, element, by, ElementFinder } from 'protractor';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
+import * as remote from 'selenium-webdriver/remote';
 
 interface PersonalInformation {
   firstName: string;
@@ -19,6 +22,7 @@ export class PersonalInformationPage {
   private date: ElementFinder;
   private sendButton: ElementFinder;
   private pageTitle: ElementFinder;
+  private uploadInput: ElementFinder;
 
   constructor () {
     this.firstName = element(by.name('firstname'));
@@ -26,6 +30,7 @@ export class PersonalInformationPage {
     this.date = element(by.id('datepicker'));
     this.sendButton = element(by.id('submit'));
     this.pageTitle = element(by.id('content')).element(by.tagName('h1'));
+    this.uploadInput = element(by.id('photo'));
   }
 
   private setSex(gender:string) {
@@ -56,6 +61,21 @@ export class PersonalInformationPage {
     return await this.pageTitle.getText();
   }
 
+  private async uploadFile(relativePath: string): Promise<void> {
+    const fullPath = resolve(process.cwd(), relativePath);
+
+    if (existsSync(fullPath)) {
+      await browser.setFileDetector(new remote.FileDetector());
+      await this.uploadInput.sendKeys(fullPath);
+      await browser.setFileDetector(undefined);
+    }
+  }
+
+  public async getFilename(): Promise<string> {
+    const fullPath: string = await this.uploadInput.getAttribute('value');
+    return fullPath.split(/(\\|\/)/g).pop();
+  }
+
   public async fillForm(information: PersonalInformation): Promise<void> {
     await this.firstName.sendKeys(information.firstName);
     await this.lastName.sendKeys(information.lastName);
@@ -66,6 +86,10 @@ export class PersonalInformationPage {
     await information.profession.forEach(async (element) => {
       await this.setProfession(element);
     });
+
+    if (information.file) {
+      await this.uploadFile(information.file);
+    }
 
     await information.tools.forEach(async (element) => {
       await this.setAutomationTool(element);
