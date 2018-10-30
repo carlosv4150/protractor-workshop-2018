@@ -5,3 +5,6 @@ language: node_js
 cache:
   directories:
     - "node_modules"
+sudo: required
+services:
+  - docker
