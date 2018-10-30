@@ -1,5 +1,6 @@
 import { browser } from 'protractor';
 import { PersonalInformationPage } from '../src/page';
+import { DownloadService } from '../src/service/download.service';
 
 describe('Given a form', () => {
 
@@ -21,6 +22,7 @@ describe('Given a form', () => {
         tools: ['Selenium Webdriver'],
         continent: 'South America',
         file: './resources/sea.jpg',
+        downloadFile: true,
         commands: [
           'Browser Commands',
           'Navigation Commands',
@@ -32,6 +34,12 @@ describe('Given a form', () => {
 
     it('Then file should be loaded', async () => {
       expect(await personalInformationPage.getFilename()).toBe('sea.jpg');
+    });
+
+    it('And a file should be downloaded', async () => {
+      const service = new DownloadService();
+      const file = await service.readFileFromTemp('test-document.xlsx');
+      expect(file.byteLength).toBeGreaterThanOrEqual(8000);
     });
 
     it('And the information is sent', async () => {
