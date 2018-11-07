@@ -7,10 +7,11 @@
     "clean": "rm -rf dist && rm -rf reports && rm -rf temp",
     "build": "npm run lint && npm run clean && tsc",
     "test": "npm run test:bs",
+    "test:zalenium": "npm run build && protractor dist/protractor/zalenium.config.js",
     "test:bs": "npm run build && protractor dist/protractor/bs.config.js",
     "test:local": "npm run build && protractor dist/protractor/config.js",
     "test:headless": "npm run build && protractor dist/protractor/headless.config.js",
-    "postinstall": "webdriver-manager update --gecko false",
+    "postinstall": "webdriver-manager update",
     "lint": "tslint --project tsconfig.json protractor/**/*.ts test/**/*.ts src/**/*.ts"
   },
   "repository": {
