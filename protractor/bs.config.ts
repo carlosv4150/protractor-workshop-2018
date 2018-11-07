@@ -30,8 +30,8 @@ export let config: Config = {
   jasmineNodeOpts: {
     defaultTimeoutInterval: 120000
   },
-  browserstackUser: 'carlosvibanco1', // process.env.BS_USERNAME,
-  browserstackKey: 'whZJxUyWPxZUGzgx1DjK', // process.env.BS_ACCESS_KEY,
+  browserstackUser: process.env.BROWSER_STACK_USER,
+  browserstackKey: process.env.BROWSER_STACK_KEY,
   SELENIUM_PROMISE_MANAGER: false,
   onPrepare: () => {
     browser.ignoreSynchronization = true;
