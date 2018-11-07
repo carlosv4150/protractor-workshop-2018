@@ -32,8 +32,8 @@ export let config: Config = {
   jasmineNodeOpts: {
     defaultTimeoutInterval: 120000
   },
-  browserstackUser: process.env.BS_USERNAME,
-  browserstackKey: process.env.BS_ACCESS_KEY,
+  browserstackUser: process.env.BROWSER_STACK_USER,
+  browserstackKey: process.env.BROWSER_STACK_KEY,
   SELENIUM_PROMISE_MANAGER: false,
   seleniumAddress: 'http://192.168.99.100:4444/wd/hub',
   onPrepare: () => {
