@@ -27,6 +27,7 @@ export let config: Config = {
   framework: 'jasmine',
   specs: ['../test/**/locators.spec.js'],
   getPageTimeout: 30000,
+  noGlobals: true,
   jasmineNodeOpts: {
     defaultTimeoutInterval: 120000
   },
